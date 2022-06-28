@@ -82,9 +82,12 @@ namespace Prueba_Trainee_Quark
             {
                 ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
                 ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
-                new ClsPrestamo(ejemplar, socio);
+                new ClsPrestamo(ejemplar, socio, out bool registrado);
                 InicializarEntradas();
-                DialogResult resultado = MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if(registrado)
+                    MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("El socio ya cumplió el cupo máximo de prestamos.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void InicializarEntradas()

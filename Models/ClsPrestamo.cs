@@ -49,22 +49,27 @@ namespace Prueba_Trainee_Quark.Models
             Fecha_Devolucion = fecha_Devolucion;
         }
         #endregion
-        public ClsPrestamo(ClsEjemplar ejemplar, ClsSocio socio)
+        public ClsPrestamo(ClsEjemplar ejemplar, ClsSocio socio, out bool registrado)
         {
             if (HistorialTransacciones == null)
             {
                 HistorialTransacciones = new List<ClsPrestamo>();
             }
-            RegistrarPrestamo(ejemplar, socio);
+            registrado = RegistrarPrestamo(ejemplar, socio);
         }
-        public void RegistrarPrestamo(ClsEjemplar ejemplar, ClsSocio socio)
+        public bool RegistrarPrestamo(ClsEjemplar ejemplar, ClsSocio socio)
         {
-            SetEjemplar(ejemplar);
-            SetSocio(socio);
-            SetFecha_Prestamo(DateTime.Now);
-            HistorialTransacciones.Add(this);
-            ejemplar.GetLibro().PrestarEjemplar();
-            socio.RetirarEjemplar(ejemplar);
+            if (socio.GetCant_Max() > socio.GetEjemplares_Retirados().Count)
+            {
+                SetEjemplar(ejemplar);
+                SetSocio(socio);
+                SetFecha_Prestamo(DateTime.Now);
+                HistorialTransacciones.Add(this);
+                ejemplar.GetLibro().PrestarEjemplar();
+                socio.RetirarEjemplar(ejemplar);
+                return true;
+            }
+            return false;
         }
         public void RegistrarDevolucion(ClsPrestamo prestamo)
         {
@@ -73,7 +78,7 @@ namespace Prueba_Trainee_Quark.Models
                 HistorialTransacciones = new List<ClsPrestamo>();
             }
             ClsPrestamo prestamoEncontrado = HistorialTransacciones.Find(x => x == prestamo); //Busco el prestamo en el historial.
-            
+
             ClsSocio socio = prestamoEncontrado.Socio;
             ClsEjemplar ejemplar = prestamoEncontrado.Ejemplar;
             ClsLibro libro = ejemplar.GetLibro();

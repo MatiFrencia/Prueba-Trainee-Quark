@@ -175,6 +175,7 @@ namespace Prueba_Trainee_Quark
                     x.GetSocio().GetId() == socio.GetId() &&
                     x.GetFecha_Prestamo().Date == ((DateTime)FilaSeleccionada.Cells["fecha"].Value).Date);
                     prestamo.RegistrarDevolucion(prestamo);
+                    CargarGrilla();
                 }
             }
             catch (Exception ex)
