@@ -1,4 +1,5 @@
 ﻿using Prueba_Trainee_Quark.Models;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,20 +39,20 @@ namespace Prueba_Trainee_Quark
             bool ningunFiltro = chkTodos.Checked ? true : (chkDevueltos.Checked ? false : (chkPendientes.Checked ? false : true));
             if (ningunFiltro)
             {
-                lstPrestamos = ClsPrestamo.HistorialTransacciones.Where(x =>
+                lstPrestamos = ReglasDeNegocio.HistorialTransacciones.Where(x =>
                     x.GetFecha_Prestamo().Date >= dtpDesde.Value.Date &&
                     x.GetFecha_Prestamo().Date <= dtpHasta.Value.Date).ToList();
             }
             else if (chkDevueltos.Checked)
             {
-                lstPrestamos = ClsPrestamo.HistorialTransacciones.Where(x =>
+                lstPrestamos = ReglasDeNegocio.HistorialTransacciones.Where(x =>
                 x.GetFecha_Prestamo().Date >= dtpDesde.Value.Date &&
                 x.GetFecha_Prestamo().Date <= dtpHasta.Value.Date &&
                 x.GetFecha_Devolucion() != null).ToList();
             }
             else if (chkPendientes.Checked)
             {
-                lstPrestamos = ClsPrestamo.HistorialTransacciones.Where(x =>
+                lstPrestamos = ReglasDeNegocio.HistorialTransacciones.Where(x =>
                 x.GetFecha_Prestamo().Date >= dtpDesde.Value.Date &&
                 x.GetFecha_Prestamo().Date <= dtpHasta.Value.Date &&
                 x.GetFecha_Devolucion() == null).ToList();
@@ -69,7 +70,7 @@ namespace Prueba_Trainee_Quark
             dgvPrestamos.Columns.Add("socio", "Socio");
             dgvPrestamos.Columns.Add("fecha_Devolución", "Fecha de Devolución");
 
-            if (ClsPrestamo.HistorialTransacciones != null)
+            if (ReglasDeNegocio.HistorialTransacciones != null)
             {
                 dgvPrestamos.AutoGenerateColumns = true;
 
@@ -81,11 +82,11 @@ namespace Prueba_Trainee_Quark
                     if (fecha_devolucion.HasValue)
                         fecha_devolucion = (DateTime)prestamo.GetFecha_Devolucion();
                     dgvPrestamos.Rows.Add(
-                        prestamo.GetFecha_Prestamo().Date,
+                        prestamo.GetFecha_Prestamo(),
                         prestamo.GetEjemplar().GetLibro().GetNombre(),
                         prestamo.GetEjemplar().GetId(),
                         prestamo.GetSocio().GetId(),
-                        fecha_devolucion.HasValue ? ((DateTime)fecha_devolucion).Date : fecha_devolucion);
+                        fecha_devolucion);
                 }
 
                 foreach (DataGridViewRow row in dgvPrestamos.Rows)
@@ -168,13 +169,14 @@ namespace Prueba_Trainee_Quark
             {
                 if (FilaSeleccionada != null)
                 {
-                    ClsEjemplar ejemplar = ClsEjemplar.EjemplaresCargados.FirstOrDefault(x => x.GetId() == Convert.ToInt32(FilaSeleccionada.Cells["ejemplar"].Value));
-                    ClsSocio socio = ClsSocio.Socios.FirstOrDefault(x => x.GetId() == Convert.ToInt32(FilaSeleccionada.Cells["socio"].Value));
-                    ClsPrestamo prestamo = ClsPrestamo.HistorialTransacciones.FirstOrDefault(x =>
+                    ClsEjemplar ejemplar = ReglasDeNegocio.EjemplaresCargados.FirstOrDefault(x => x.GetId() == Convert.ToInt32(FilaSeleccionada.Cells["ejemplar"].Value));
+                    ClsSocio socio = ReglasDeNegocio.Socios.FirstOrDefault(x => x.GetId() == Convert.ToInt32(FilaSeleccionada.Cells["socio"].Value));
+                    ClsPrestamo prestamo = ReglasDeNegocio.HistorialTransacciones.FirstOrDefault(x =>
                     x.GetEjemplar().GetId() == ejemplar.GetId() &&
                     x.GetSocio().GetId() == socio.GetId() &&
-                    x.GetFecha_Prestamo().Date == ((DateTime)FilaSeleccionada.Cells["fecha"].Value).Date);
+                    x.GetFecha_Prestamo() == ((DateTime)FilaSeleccionada.Cells["fecha"].Value));
                     prestamo.RegistrarDevolucion(prestamo);
+                    CargarGrilla();
                 }
             }
             catch (Exception ex)

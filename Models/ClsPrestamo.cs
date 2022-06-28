@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 
 namespace Prueba_Trainee_Quark.Models
 {
     class ClsPrestamo
     {
-        public static List<ClsPrestamo> HistorialTransacciones;
         #region Atributos
         private ClsEjemplar Ejemplar { get; set; }
         private ClsSocio Socio { get; set; }
@@ -51,9 +52,9 @@ namespace Prueba_Trainee_Quark.Models
         #endregion
         public ClsPrestamo(ClsEjemplar ejemplar, ClsSocio socio)
         {
-            if (HistorialTransacciones == null)
+            if (ReglasDeNegocio.HistorialTransacciones == null)
             {
-                HistorialTransacciones = new List<ClsPrestamo>();
+                ReglasDeNegocio.HistorialTransacciones = new List<ClsPrestamo>();
             }
             RegistrarPrestamo(ejemplar, socio);
         }
@@ -62,26 +63,32 @@ namespace Prueba_Trainee_Quark.Models
             SetEjemplar(ejemplar);
             SetSocio(socio);
             SetFecha_Prestamo(DateTime.Now);
-            HistorialTransacciones.Add(this);
+            ReglasDeNegocio.HistorialTransacciones.Add(this);
             ejemplar.GetLibro().PrestarEjemplar();
             socio.RetirarEjemplar(ejemplar);
         }
         public void RegistrarDevolucion(ClsPrestamo prestamo)
         {
-            if (HistorialTransacciones == null)
+            if (ReglasDeNegocio.HistorialTransacciones == null)
             {
-                HistorialTransacciones = new List<ClsPrestamo>();
+                ReglasDeNegocio.HistorialTransacciones = new List<ClsPrestamo>();
             }
-            ClsPrestamo prestamoEncontrado = HistorialTransacciones.Find(x => x == prestamo); //Busco el prestamo en el historial.
-            
-            ClsSocio socio = prestamoEncontrado.Socio;
-            ClsEjemplar ejemplar = prestamoEncontrado.Ejemplar;
-            ClsLibro libro = ejemplar.GetLibro();
+            ClsPrestamo prestamoEncontrado = ReglasDeNegocio.HistorialTransacciones.FirstOrDefault(x => 
+            x.GetSocio().GetId() == prestamo.GetSocio().GetId() &&
+            x.GetEjemplar().GetId() == prestamo.GetEjemplar().GetId() &&
+            x.GetFecha_Prestamo() == prestamo.GetFecha_Prestamo()); //Busco el prestamo en el historial.
 
-            socio.DevolverEjemplar(prestamoEncontrado.Ejemplar);
-            libro.RegistrarReingreso(prestamoEncontrado.Ejemplar);
+            if (prestamoEncontrado.GetFecha_Devolucion() == null)
+            {
+                ClsSocio socio = prestamoEncontrado.Socio;
+                ClsEjemplar ejemplar = prestamoEncontrado.Ejemplar;
+                ClsLibro libro = ejemplar.GetLibro();
 
-            prestamoEncontrado.Fecha_Devolucion = DateTime.Now; //Seteo la fecha de devolución al último para que si falla el proceso no se registre devuelto.
+                socio.DevolverEjemplar(prestamoEncontrado.Ejemplar);
+                libro.RegistrarReingreso(prestamoEncontrado.Ejemplar);
+
+                prestamoEncontrado.Fecha_Devolucion = DateTime.Now; //Seteo la fecha de devolución al último para que si falla el proceso no se registre devuelto.
+            }
         }
     }
 }

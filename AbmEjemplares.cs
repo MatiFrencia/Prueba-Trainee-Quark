@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Prueba_Trainee_Quark.Models;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 
 namespace Prueba_Trainee_Quark
 {
@@ -21,9 +22,9 @@ namespace Prueba_Trainee_Quark
         }
         private void CargarLibros()
         {
-            if (ClsLibro.LibrosCargados != null)
+            if (ReglasDeNegocio.LibrosCargados != null)
             {
-                foreach (ClsLibro libro in ClsLibro.LibrosCargados)
+                foreach (ClsLibro libro in ReglasDeNegocio.LibrosCargados)
                 {
                     cboLibros.Items.Add(KeyValuePair.Create(libro.GetNombre(), libro));
                 }
@@ -49,10 +50,13 @@ namespace Prueba_Trainee_Quark
                 MessageBox.Show("Ingrese una cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
             {
-                ClsLibro libro = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
-                new ClsEjemplar().RegistrarEjemplar(txtUbicacion.Text, Convert.ToInt32(nmrEdicion.Value), libro, Convert.ToInt32(nmrCant.Value));
-                InicializarEntradas();
-                DialogResult resultado = MessageBox.Show("Ejemplar Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (cboLibros.SelectedItem != null)
+                {
+                    ClsLibro libro = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
+                    new ClsEjemplar().RegistrarEjemplar(txtUbicacion.Text, Convert.ToInt32(nmrEdicion.Value), libro, Convert.ToInt32(nmrCant.Value));
+                    InicializarEntradas();
+                    DialogResult resultado = MessageBox.Show("Ejemplar Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
         private void InicializarEntradas()

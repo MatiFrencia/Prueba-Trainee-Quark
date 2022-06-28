@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prueba_Trainee_Quark.Reglas_De_Negocio;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -37,7 +38,7 @@ namespace Prueba_Trainee_Quark.Models
             nuevoSocioVIP.SetNombre(nombre);
             nuevoSocioVIP.SetApellido(apellido);
             nuevoSocioVIP.SetCuotaMensual(cuotaMensual);
-            Socios.Add(nuevoSocioVIP);
+            ReglasDeNegocio.Socios.Add(nuevoSocioVIP);
         }
     }
 }

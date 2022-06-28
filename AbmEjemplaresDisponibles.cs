@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Prueba_Trainee_Quark.Models;
 using System.Linq;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 
 namespace Prueba_Trainee_Quark
 {
@@ -54,9 +55,9 @@ namespace Prueba_Trainee_Quark
         }
         private void CargarLibros()
         {
-            if (ClsLibro.LibrosCargados != null)
+            if (ReglasDeNegocio.LibrosCargados != null)
             {
-                foreach (ClsLibro libro in ClsLibro.LibrosCargados)
+                foreach (ClsLibro libro in ReglasDeNegocio.LibrosCargados)
                 {
                     cboLibros.Items.Add(KeyValuePair.Create(libro.GetNombre(), libro));
                 }

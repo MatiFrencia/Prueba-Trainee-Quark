@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Prueba_Trainee_Quark.Models;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 
 namespace Prueba_Trainee_Quark
 {
@@ -22,9 +23,9 @@ namespace Prueba_Trainee_Quark
         }
         private void CargarLibros()
         {
-            if (ClsLibro.LibrosCargados != null)
+            if (ReglasDeNegocio.LibrosCargados != null)
             {
-                foreach (ClsLibro libro in ClsLibro.LibrosCargados)
+                foreach (ClsLibro libro in ReglasDeNegocio.LibrosCargados)
                 {
                     cboLibros.Items.Add(KeyValuePair.Create(libro.GetNombre(), libro));
                 }
@@ -34,9 +35,9 @@ namespace Prueba_Trainee_Quark
         }
         private void CargarSocios()
         {
-            if (ClsSocio.Socios != null)
+            if (ReglasDeNegocio.Socios != null)
             {
-                foreach (ClsSocio socio in ClsSocio.Socios)
+                foreach (ClsSocio socio in ReglasDeNegocio.Socios)
                 {
                     cboSocios.Items.Add(KeyValuePair.Create(socio.GetNombreCompleto(), socio));
                 }
@@ -60,8 +61,11 @@ namespace Prueba_Trainee_Quark
         }
         private void cboLibros_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ClsLibro libroSeleccionado = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
-            CargarEjemplares(libroSeleccionado);
+            if (cboLibros.SelectedItem != null)
+            {
+                ClsLibro libroSeleccionado = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
+                CargarEjemplares(libroSeleccionado);
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -75,11 +79,22 @@ namespace Prueba_Trainee_Quark
         }
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
-            ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
-            new ClsPrestamo(ejemplar, socio);
-            InicializarEntradas();
-            DialogResult resultado = MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (cboEjemplares.SelectedItem != null && cboSocios.SelectedItem != null)
+            {
+                ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
+                ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
+                if (socio.GetCant_Max() > socio.GetEjemplares_Retirados().Count)
+                {
+                    new ClsPrestamo(ejemplar, socio);
+                    InicializarEntradas();
+                    MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"El socio '{socio.GetNombreCompleto()}' no puede retirar más libros," +
+                        $" ya cumplió el cupo de libros retirados ({socio.GetCant_Max()}).", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
         }
         private void InicializarEntradas()
         {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 
 namespace Prueba_Trainee_Quark.Models
 {
     class ClsSocio
     {
-        public static List<ClsSocio> Socios;
         #region Atributos
         private int Id { get; set; }
         private string Nombre { get; set; }
@@ -45,9 +45,9 @@ namespace Prueba_Trainee_Quark.Models
         public void SetId()
         {
             int ultimoId = 0;
-            if (Socios != null && Socios.Count() != 0)
+            if (ReglasDeNegocio.Socios != null && ReglasDeNegocio.Socios.Count() != 0)
             {
-                ultimoId = Socios.Max(x => x.GetId());
+                ultimoId = ReglasDeNegocio.Socios.Max(x => x.GetId());
             }
             Id = ultimoId + 1;
         }
@@ -76,9 +76,9 @@ namespace Prueba_Trainee_Quark.Models
         public void Inicializar()
         {
             Ejemplares_Retirados = new List<ClsEjemplar>();
-            if (Socios == null)
+            if (ReglasDeNegocio.Socios == null)
             {
-                Socios = new List<ClsSocio>();
+                ReglasDeNegocio.Socios = new List<ClsSocio>();
             }
         }
 
@@ -88,7 +88,7 @@ namespace Prueba_Trainee_Quark.Models
             nuevoSocio.SetId();
             nuevoSocio.SetNombre(nombre);
             nuevoSocio.SetApellido(apellido);
-            Socios.Add(nuevoSocio);
+            ReglasDeNegocio.Socios.Add(nuevoSocio);
         }
         public bool ConsultarCupos()
         {

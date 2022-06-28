@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
 
 namespace Prueba_Trainee_Quark.Models
 {
     class ClsEjemplar
     {
 
-        public static List<ClsEjemplar> EjemplaresCargados;
         #region Atributos
         private int Id { get; set; }
         private int NroEdicion { get; set; }
@@ -37,9 +37,9 @@ namespace Prueba_Trainee_Quark.Models
         public void SetId()
         {
             int ultimoId = 0;
-            if (EjemplaresCargados != null && EjemplaresCargados.Count() != 0)
+            if (ReglasDeNegocio.EjemplaresCargados != null && ReglasDeNegocio.EjemplaresCargados.Count() != 0)
             {
-                ultimoId = EjemplaresCargados.Max(x => x.GetId());
+                ultimoId = ReglasDeNegocio.EjemplaresCargados.Max(x => x.GetId());
             }
             Id = ultimoId + 1;
         }
@@ -58,9 +58,9 @@ namespace Prueba_Trainee_Quark.Models
         #endregion
         public ClsEjemplar()
         {
-            if (EjemplaresCargados == null)
+            if (ReglasDeNegocio.EjemplaresCargados == null)
             {
-                EjemplaresCargados = new List<ClsEjemplar>();
+                ReglasDeNegocio.EjemplaresCargados = new List<ClsEjemplar>();
             }
         }
         public void RegistrarEjemplar(string ubicacion, int nroEdicion, ClsLibro libro, int cant)
@@ -73,7 +73,7 @@ namespace Prueba_Trainee_Quark.Models
                 nuevoEjemplar.SetNroEdicion(nroEdicion);
                 nuevoEjemplar.SetId();
                 libro.AgregarEjemplar(nuevoEjemplar);
-                EjemplaresCargados.Add(nuevoEjemplar);
+                ReglasDeNegocio.EjemplaresCargados.Add(nuevoEjemplar);
             }
         }
     }

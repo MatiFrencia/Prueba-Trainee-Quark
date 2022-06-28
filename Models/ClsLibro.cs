@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Prueba_Trainee_Quark.Reglas_De_Negocio;
+
 
 namespace Prueba_Trainee_Quark.Models
 {
     class ClsLibro
     {
-        public static List<ClsLibro> LibrosCargados;
         #region Atributos
         private string Nombre { get; set; }
         private int Cod_ISBN { get; set; }
@@ -51,9 +52,9 @@ namespace Prueba_Trainee_Quark.Models
         #endregion
         public ClsLibro()
         {
-            if (LibrosCargados == null)
+            if (ReglasDeNegocio.LibrosCargados == null)
             {
-                LibrosCargados = new List<ClsLibro>();
+                ReglasDeNegocio.LibrosCargados = new List<ClsLibro>();
             }
             LstEjemplares = new List<ClsEjemplar>();
         }
@@ -63,7 +64,7 @@ namespace Prueba_Trainee_Quark.Models
             nuevoLibro.SetNombre(nombre);
             nuevoLibro.SetCod_ISBN(cod_ISBN);
             nuevoLibro.SetAutor(autor);
-            LibrosCargados.Add(nuevoLibro);
+            ReglasDeNegocio.LibrosCargados.Add(nuevoLibro);
         }
         public void RegistrarEjemplar(int nroEdicion, string ubicacion)
         {
