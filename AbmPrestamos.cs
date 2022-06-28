@@ -78,16 +78,23 @@ namespace Prueba_Trainee_Quark
         }
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            if (cboEjemplares.SelectedItem != null && cboSocios.SelectedItem != null)
+            try
             {
-                ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
-                ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
-                new ClsPrestamo(ejemplar, socio, out bool registrado);
-                InicializarEntradas();
-                if(registrado)
-                    MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("El socio ya cumplió el cupo máximo de prestamos.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (cboEjemplares.SelectedItem != null && cboSocios.SelectedItem != null)
+                {
+                    ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
+                    ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
+                    new ClsPrestamo(ejemplar, socio, out bool registrado);
+                    InicializarEntradas();
+                    if (registrado)
+                        MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El socio ya cumplió el cupo máximo de prestamos.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void InicializarEntradas()

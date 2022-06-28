@@ -59,7 +59,7 @@ namespace Prueba_Trainee_Quark.Models
         }
         public bool RegistrarPrestamo(ClsEjemplar ejemplar, ClsSocio socio)
         {
-            if (socio.GetCant_Max() > socio.GetEjemplares_Retirados().Count)
+            if(socio.ConsultarCupos())
             {
                 SetEjemplar(ejemplar);
                 SetSocio(socio);

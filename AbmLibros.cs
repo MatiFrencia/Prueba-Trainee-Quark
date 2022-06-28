@@ -29,9 +29,23 @@ namespace Prueba_Trainee_Quark
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            new ClsLibro().RegistrarLibro(txtNombre.Text,Convert.ToInt32(nmrISBN.Value),txtAutor.Text);
-            InicializarEntradas();
-            DialogResult resultado = MessageBox.Show("Libro Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                if (!string.IsNullOrEmpty(txtAutor.Text) && !string.IsNullOrEmpty(txtNombre.Text))
+                {
+                    new ClsLibro().RegistrarLibro(txtNombre.Text, Convert.ToInt32(nmrISBN.Value), txtAutor.Text);
+                    InicializarEntradas();
+                    MessageBox.Show("Libro Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, rellene todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         private void InicializarEntradas()
         {

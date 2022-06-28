@@ -161,6 +161,11 @@ namespace Prueba_Trainee_Quark
                 this.Dispose();
             }
         }
+        private void consultarCuposToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConsultarCupos ConsultCupos = new ConsultarCupos();
+            ConsultCupos.Show();
+        }
         #endregion
         private void btnRegDevolucion_Click(object sender, EventArgs e)
         {

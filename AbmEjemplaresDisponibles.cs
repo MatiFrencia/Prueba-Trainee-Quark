@@ -29,27 +29,34 @@ namespace Prueba_Trainee_Quark
 
         private void btnConsultar_Click(object sender, EventArgs e)
         {
-            if (cboLibros.SelectedItem != null)
+            try
             {
-                ClsLibro libroSeleccionado = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
-                string mensaje = $"No se encontraron ejemplares disponibles del libro {libroSeleccionado.GetNombre()}";
-                if (libroSeleccionado.ConsultarDisponibilidad())
-                    mensaje = $"Ejemplares disponibles de '{libroSeleccionado.GetNombre()}' encontrados: {libroSeleccionado.GetLstEjemplares().Count}";
-                DialogResult resultado = MessageBox.Show(mensaje, "Ejemplares Disponibles", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if (resultado == DialogResult.OK)
+                if (cboLibros.SelectedItem != null)
                 {
-                    this.Close();
-                    this.Dispose();
+                    ClsLibro libroSeleccionado = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
+                    string mensaje = $"No se encontraron ejemplares disponibles del libro {libroSeleccionado.GetNombre()}";
+                    if (libroSeleccionado.ConsultarDisponibilidad())
+                        mensaje = $"Ejemplares disponibles de '{libroSeleccionado.GetNombre()}' encontrados: {libroSeleccionado.GetLstEjemplares().Count}";
+                    DialogResult resultado = MessageBox.Show(mensaje, "Ejemplares Disponibles", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (resultado == DialogResult.OK)
+                    {
+                        this.Close();
+                        this.Dispose();
+                    }
+                }
+                else
+                {
+                    DialogResult resultado = MessageBox.Show("Por favor, seleccione un libro", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (resultado == DialogResult.OK)
+                    {
+                        this.Close();
+                        this.Dispose();
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                DialogResult resultado = MessageBox.Show("Por favor, seleccione un libro", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (resultado == DialogResult.OK)
-                {
-                    this.Close();
-                    this.Dispose();
-                }
+                MessageBox.Show(ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void CargarLibros()

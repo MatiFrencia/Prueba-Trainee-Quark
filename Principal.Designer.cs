@@ -36,6 +36,7 @@ namespace Prueba_Trainee_Quark
             this.consultarDisponibilidadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sociosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarSocioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consultarCuposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRegistrarPrestamo = new System.Windows.Forms.Button();
             this.dgvPrestamos = new System.Windows.Forms.DataGridView();
             this.btnConsultar = new System.Windows.Forms.Button();
@@ -101,7 +102,8 @@ namespace Prueba_Trainee_Quark
             // sociosToolStripMenuItem
             // 
             this.sociosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registrarSocioToolStripMenuItem});
+            this.registrarSocioToolStripMenuItem,
+            this.consultarCuposToolStripMenuItem});
             this.sociosToolStripMenuItem.Name = "sociosToolStripMenuItem";
             this.sociosToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.sociosToolStripMenuItem.Text = "Socios";
@@ -109,9 +111,16 @@ namespace Prueba_Trainee_Quark
             // registrarSocioToolStripMenuItem
             // 
             this.registrarSocioToolStripMenuItem.Name = "registrarSocioToolStripMenuItem";
-            this.registrarSocioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.registrarSocioToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.registrarSocioToolStripMenuItem.Text = "Registrar Socio";
             this.registrarSocioToolStripMenuItem.Click += new System.EventHandler(this.registrarSocioToolStripMenuItem_Click);
+            // 
+            // consultarCuposToolStripMenuItem
+            // 
+            this.consultarCuposToolStripMenuItem.Name = "consultarCuposToolStripMenuItem";
+            this.consultarCuposToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.consultarCuposToolStripMenuItem.Text = "Consultar Cupos";
+            this.consultarCuposToolStripMenuItem.Click += new System.EventHandler(this.consultarCuposToolStripMenuItem_Click);
             // 
             // btnRegistrarPrestamo
             // 
@@ -133,6 +142,7 @@ namespace Prueba_Trainee_Quark
             this.dgvPrestamos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPrestamos.Location = new System.Drawing.Point(15, 160);
             this.dgvPrestamos.Name = "dgvPrestamos";
+            this.dgvPrestamos.ReadOnly = true;
             this.dgvPrestamos.RowTemplate.Height = 25;
             this.dgvPrestamos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPrestamos.Size = new System.Drawing.Size(708, 233);
@@ -326,6 +336,7 @@ namespace Prueba_Trainee_Quark
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem consultarDisponibilidadToolStripMenuItem;
         private System.Windows.Forms.Button btnRegDevolucion;
+        private System.Windows.Forms.ToolStripMenuItem consultarCuposToolStripMenuItem;
     }
 }
 
