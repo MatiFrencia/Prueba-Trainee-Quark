@@ -49,10 +49,13 @@ namespace Prueba_Trainee_Quark
                 MessageBox.Show("Ingrese una cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
             {
-                ClsLibro libro = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
-                new ClsEjemplar().RegistrarEjemplar(txtUbicacion.Text, Convert.ToInt32(nmrEdicion.Value), libro, Convert.ToInt32(nmrCant.Value));
-                InicializarEntradas();
-                DialogResult resultado = MessageBox.Show("Ejemplar Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (cboLibros.SelectedItem != null)
+                {
+                    ClsLibro libro = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
+                    new ClsEjemplar().RegistrarEjemplar(txtUbicacion.Text, Convert.ToInt32(nmrEdicion.Value), libro, Convert.ToInt32(nmrCant.Value));
+                    InicializarEntradas();
+                    DialogResult resultado = MessageBox.Show("Ejemplar Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
         private void InicializarEntradas()

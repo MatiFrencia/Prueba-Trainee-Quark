@@ -60,8 +60,11 @@ namespace Prueba_Trainee_Quark
         }
         private void cboLibros_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ClsLibro libroSeleccionado = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
-            CargarEjemplares(libroSeleccionado);
+            if (cboLibros.SelectedItem != null)
+            {
+                ClsLibro libroSeleccionado = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
+                CargarEjemplares(libroSeleccionado);
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -75,11 +78,14 @@ namespace Prueba_Trainee_Quark
         }
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
-            ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
-            new ClsPrestamo(ejemplar, socio);
-            InicializarEntradas();
-            DialogResult resultado = MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (cboEjemplares.SelectedItem != null && cboSocios.SelectedItem != null)
+            {
+                ClsEjemplar ejemplar = (ClsEjemplar)((dynamic)cboEjemplares.SelectedItem).Value;
+                ClsSocio socio = (ClsSocio)((dynamic)cboSocios.SelectedItem).Value;
+                new ClsPrestamo(ejemplar, socio);
+                InicializarEntradas();
+                DialogResult resultado = MessageBox.Show("Prestamo Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         private void InicializarEntradas()
         {
