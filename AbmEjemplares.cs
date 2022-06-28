@@ -45,17 +45,32 @@ namespace Prueba_Trainee_Quark
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            if (nmrCant.Value == 0)
-                MessageBox.Show("Ingrese una cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
+            try
             {
-                if (cboLibros.SelectedItem != null)
+                if (nmrCant.Value == 0)
+                    MessageBox.Show("Ingrese una cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                else
                 {
-                    ClsLibro libro = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
-                    new ClsEjemplar().RegistrarEjemplar(txtUbicacion.Text, Convert.ToInt32(nmrEdicion.Value), libro, Convert.ToInt32(nmrCant.Value));
-                    InicializarEntradas();
-                    DialogResult resultado = MessageBox.Show("Ejemplar Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (cboLibros.SelectedItem != null)
+                    {
+                        if (!string.IsNullOrEmpty(txtUbicacion.Text))
+                        {
+                            ClsLibro libro = (ClsLibro)((dynamic)cboLibros.SelectedItem).Value;
+                            new ClsEjemplar().RegistrarEjemplar(txtUbicacion.Text, Convert.ToInt32(nmrEdicion.Value), libro, Convert.ToInt32(nmrCant.Value));
+                            InicializarEntradas();
+                            MessageBox.Show("Ejemplar Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Por favor, rellene todos los campos.", "Advertencias", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void InicializarEntradas()

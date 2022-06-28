@@ -93,7 +93,7 @@ namespace Prueba_Trainee_Quark.Models
         public bool ConsultarCupos()
         {
             bool disponible = true;
-            if (Ejemplares_Retirados.Count == Cant_Max)
+            if (Ejemplares_Retirados.Count >= Cant_Max)
                 disponible = false;
             return disponible;
         }

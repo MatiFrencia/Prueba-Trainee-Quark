@@ -18,14 +18,41 @@ namespace Prueba_Trainee_Quark
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            bool vip = chkVIP.Checked;
-            if (vip)
-                new ClsSociosVIP().RegistrarSocio(txtNombre.Text, txtApellido.Text, nmrCuota.Value);
-            else
-                new ClsSocio().RegistrarSocio(txtNombre.Text, txtApellido.Text);
+            try
+            {
+                bool vip = chkVIP.Checked;
+
+                if (vip)
+                {
+                    if (!string.IsNullOrEmpty(txtNombre.Text) && !string.IsNullOrEmpty(txtApellido.Text) && !string.IsNullOrEmpty(nmrCuota.Value.ToString()))
+                    {
+                        new ClsSociosVIP().RegistrarSocio(txtNombre.Text, txtApellido.Text, nmrCuota.Value);
+                        MessageBox.Show("Socio Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Por favor rellene todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(txtNombre.Text) && !string.IsNullOrEmpty(txtApellido.Text))
+                    {
+                        new ClsSocio().RegistrarSocio(txtNombre.Text, txtApellido.Text);
+                        MessageBox.Show("Socio Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Por favor rellene todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             InicializarEntradas();
-            DialogResult resultado = MessageBox.Show("Socio Registrado.", "Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+            }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
